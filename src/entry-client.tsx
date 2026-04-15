@@ -8,10 +8,10 @@ import "./index.css";
 hydrateRoot(
   document.getElementById("root")!,
   <StrictMode>
-    <App>
-      <BrowserRouter>
+    <BrowserRouter>
+      <App>
         <AppRoutes />
-      </BrowserRouter>
-    </App>
+      </App>
+    </BrowserRouter>
   </StrictMode>,
 );

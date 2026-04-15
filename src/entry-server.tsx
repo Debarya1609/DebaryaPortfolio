@@ -5,10 +5,10 @@ import AppRoutes from "./AppRoutes";
 
 export function render(url: string) {
   return renderToString(
-    <App>
-      <StaticRouter location={url}>
+    <StaticRouter location={url}>
+      <App>
         <AppRoutes />
-      </StaticRouter>
-    </App>,
+      </App>
+    </StaticRouter>,
   );
 }

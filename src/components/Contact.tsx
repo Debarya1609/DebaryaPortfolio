@@ -2,6 +2,12 @@ import { Star, Send } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useState } from "react";
 
+const socialLinks = [
+  { label: "GitHub", href: "https://github.com/Debarya1609" },
+  { label: "Instagram", href: "https://www.instagram.com/frankenstein_pi/" },
+  { label: "Email", href: "mailto:debaryab@gmail.com" },
+];
+
 const Contact = () => {
   const [submitted, setSubmitted] = useState(false);
 
@@ -18,31 +24,36 @@ const Contact = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="space-y-6">
             <p className="text-lg md:text-xl font-bold leading-relaxed">
-              Got a project in mind? I'd love to hear about it. Drop me a message and let's create something{" "}
+              Got a project, freelance idea, or collaboration in mind? Let's build something{" "}
               <span className="inline-block bg-primary border-4 border-foreground px-2 rotate-1 shadow-neo-sm">
-                extraordinary
+                memorable
               </span>
-              .
+              . You can reach me directly at <a href="mailto:debaryab@gmail.com" className="underline decoration-4 underline-offset-4">debaryab@gmail.com</a>.
             </p>
             <div className="flex flex-wrap gap-4">
-              {["Twitter", "GitHub", "LinkedIn"].map((social) => (
+              {socialLinks.map((social) => (
                 <a
-                  key={social}
-                  href="#"
+                  key={social.label}
+                  href={social.href}
+                  target={social.href.startsWith("http") ? "_blank" : undefined}
+                  rel={social.href.startsWith("http") ? "noreferrer" : undefined}
                   className="border-4 border-foreground bg-card px-4 py-2 font-black text-sm uppercase tracking-wide shadow-neo-sm transition-all duration-100 hover:-translate-y-1 hover:shadow-neo active:translate-x-[2px] active:translate-y-[2px] active:shadow-none"
                 >
-                  {social}
+                  {social.label}
                 </a>
               ))}
             </div>
           </div>
 
-          <div className="bg-card border-4 border-foreground p-6 md:p-8 shadow-neo">
+          <div
+            className="bg-card border-4 border-foreground p-6 md:p-8 shadow-neo"
+            data-cursor-trail="off"
+          >
             {submitted ? (
               <div className="flex flex-col items-center justify-center py-12 text-center">
                 <Star className="h-16 w-16 stroke-[3px] fill-secondary mb-4 animate-spin-slow" />
                 <h3 className="font-black text-2xl uppercase">Message Sent!</h3>
-                <p className="font-bold mt-2">I'll get back to you soon.</p>
+                <p className="font-bold mt-2">Thanks for reaching out. I'll get back to you soon.</p>
               </div>
             ) : (
               <form
@@ -58,7 +69,7 @@ const Contact = () => {
                     type="text"
                     required
                     className="w-full border-4 border-foreground bg-card p-4 font-bold text-lg placeholder:text-foreground/40 focus:bg-secondary focus:shadow-neo-sm focus:outline-none transition-all duration-100"
-                    placeholder="Your name"
+                    placeholder="Your good name"
                   />
                 </div>
                 <div>
@@ -76,7 +87,7 @@ const Contact = () => {
                     required
                     rows={4}
                     className="w-full border-4 border-foreground bg-card p-4 font-bold text-lg placeholder:text-foreground/40 focus:bg-secondary focus:shadow-neo-sm focus:outline-none transition-all duration-100 resize-none"
-                    placeholder="Tell me about your project..."
+                    placeholder="Tell me what you're building, and how I can help..."
                   />
                 </div>
                 <Button size="lg" className="w-full">

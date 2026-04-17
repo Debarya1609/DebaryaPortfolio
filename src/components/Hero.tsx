@@ -34,7 +34,7 @@ const Hero = () => {
               style={{ transform: `rotate(-2deg) translateY(${-parallax1 * 0.3}px)` }}
             >
               <span className="font-black text-sm uppercase tracking-widest">
-                Available for work
+                Debarya Banerjee • Freelance & Collabs
               </span>
             </div>
 
@@ -43,7 +43,7 @@ const Hero = () => {
                 className="block"
                 style={{ transform: `translateX(${-parallax1 * 0.2}px)` }}
               >
-                I BUILD
+                FULL STACK
               </span>
               <span
                 className="block text-stroke"
@@ -56,7 +56,7 @@ const Hero = () => {
                   className="inline-block bg-secondary border-4 border-foreground px-3 shadow-neo"
                   style={{ transform: `rotate(${1 + rotateScroll * 0.3}deg)` }}
                 >
-                  THINGS
+                  EXPERIENCES
                 </span>
               </span>
             </h1>
@@ -65,11 +65,11 @@ const Hero = () => {
               className="text-lg sm:text-xl md:text-2xl font-bold mt-8 max-w-lg leading-snug"
               style={{ transform: `translateY(${parallax2 * 0.5}px)` }}
             >
-              Designer & developer crafting bold, memorable digital experiences
-              that refuse to blend in.
+              Full Stack Developer building bold, human-first web experiences
+              with clean code, sharp UI, and a strong product instinct.
             </p>
 
-            <div className="flex flex-wrap gap-4 mt-10">
+            <div className="flex flex-wrap gap-4 mt-10" data-cursor-trail="off">
               <Button size="lg" asChild>
                 <a href="#projects">View Projects</a>
               </Button>
@@ -90,7 +90,7 @@ const Hero = () => {
             >
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="font-black text-lg sm:text-xl md:text-2xl uppercase tracking-widest text-foreground/30 text-center px-4">
-                  Your Photo
+                  Debarya
                 </span>
               </div>
             </div>
@@ -104,7 +104,7 @@ const Hero = () => {
             >
               <div className="absolute inset-0 flex items-center justify-center">
                 <span className="font-black text-sm sm:text-base md:text-lg uppercase tracking-widest text-foreground/20 text-center px-4">
-                  Your Work
+                  Full Stack
                 </span>
               </div>
             </div>

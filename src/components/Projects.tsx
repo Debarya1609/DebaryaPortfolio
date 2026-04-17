@@ -3,23 +3,23 @@ import { Button } from "@/components/ui/button";
 
 const projects = [
   {
-    title: "E-Commerce Rebrand",
-    description: "Complete visual identity and storefront redesign for a streetwear brand.",
-    tags: ["React", "Design", "Branding"],
+    title: "Music Academy Website",
+    description: "A polished web presence for a music academy focused on clear information, trust, and a welcoming first impression.",
+    tags: ["Frontend", "Responsive UI", "Web Design"],
     color: "bg-primary",
     rotation: "rotate-1",
   },
   {
-    title: "SaaS Dashboard",
-    description: "Analytics platform with real-time data visualization and team management.",
-    tags: ["TypeScript", "D3.js", "UI/UX"],
+    title: "Esports Tournament Platform",
+    description: "A tournament hosting website built for competitive gaming workflows, event visibility, and smoother participant experience.",
+    tags: ["Full Stack", "Community", "Platform"],
     color: "bg-muted",
     rotation: "-rotate-1",
   },
   {
-    title: "Portfolio Generator",
-    description: "A tool that creates stunning portfolios from a simple JSON config file.",
-    tags: ["Node.js", "CLI", "Open Source"],
+    title: "Rook Lite Extension",
+    description: "An in-progress Google extension exploring lightweight utility, better browsing flow, and practical day-to-day usefulness.",
+    tags: ["Chrome Extension", "JavaScript", "In Progress"],
     color: "bg-secondary",
     rotation: "rotate-2",
   },
@@ -40,6 +40,7 @@ const Projects = () => {
           {projects.map((project) => (
             <div
               key={project.title}
+              data-cursor-trail="off"
               className="bg-card border-4 border-foreground shadow-neo transition-all duration-200 hover:-translate-y-2 hover:shadow-neo-lg group"
             >
               <div className={`${project.color} border-b-4 border-foreground p-6 relative overflow-hidden`}>
@@ -63,7 +64,7 @@ const Projects = () => {
                   ))}
                 </div>
                 <Button variant="ghost" className="group-hover:border-foreground group-hover:bg-primary group-hover:shadow-neo-sm mt-2 w-full">
-                  View Project <ArrowRight className="h-4 w-4 stroke-[3px]" />
+                  Case Study Soon <ArrowRight className="h-4 w-4 stroke-[3px]" />
                 </Button>
               </div>
             </div>

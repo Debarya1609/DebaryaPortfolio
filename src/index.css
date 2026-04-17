@@ -48,12 +48,17 @@
 }
 
 @layer base {
+  html {
+    scroll-behavior: smooth;
+  }
+
   * {
     @apply border-border;
   }
 
   body {
     @apply bg-background text-foreground font-sans;
+    -webkit-overflow-scrolling: touch;
   }
 
   h1, h2, h3, h4, h5, h6 {
@@ -62,6 +67,18 @@
 }
 
 @layer utilities {
+  .site-cursor-hidden,
+  .site-cursor-hidden * {
+    cursor: none !important;
+  }
+
+  .site-scroll-locked,
+  .site-scroll-locked body {
+    overflow: hidden !important;
+    touch-action: none;
+    overscroll-behavior: none;
+  }
+
   .text-stroke {
     -webkit-text-stroke: 2px black;
     color: transparent;

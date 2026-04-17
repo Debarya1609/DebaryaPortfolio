@@ -9,7 +9,7 @@ const Navbar = () => {
       <div className="container max-w-7xl mx-auto flex items-center justify-between h-16 px-4">
         <a href="#" className="flex items-center gap-2 border-4 border-foreground bg-secondary px-3 py-1 shadow-neo-sm font-black text-lg uppercase tracking-tight">
           <Star className="h-5 w-5 stroke-[3px] fill-foreground" />
-          Portfolio
+          Debarya
         </a>
 
         <div className="hidden md:flex items-center gap-1">

@@ -1,9 +1,9 @@
 import { Star, Code, Palette, Rocket } from "lucide-react";
 
 const skills = [
-  { icon: Code, label: "Development", description: "React, TypeScript, Node.js, and more" },
-  { icon: Palette, label: "Design", description: "UI/UX, branding, and visual identity" },
-  { icon: Rocket, label: "Strategy", description: "Product thinking and creative direction" },
+  { icon: Code, label: "Development", description: "Frontend and backend builds with modern JavaScript tools" },
+  { icon: Palette, label: "UI/UX Design", description: "Clean interfaces, user-focused flows, and practical design thinking" },
+  { icon: Rocket, label: "Problem Solving", description: "Turning ideas into products that feel fast, useful, and polished" },
 ];
 
 const About = () => {
@@ -20,22 +20,22 @@ const About = () => {
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
           <div className="space-y-6">
             <p className="text-lg md:text-xl font-bold leading-relaxed">
-              I'm a designer and developer who believes the web should be{" "}
+              I'm Debarya Banerjee, a full stack developer who believes the web should feel{" "}
               <span className="inline-block bg-primary border-4 border-foreground px-2 rotate-1 shadow-neo-sm">
-                loud
+                useful
               </span>
               ,{" "}
               <span className="inline-block bg-muted border-4 border-foreground px-2 -rotate-1 shadow-neo-sm">
                 bold
               </span>
-              , and impossible to ignore.
+              , and genuinely human.
             </p>
             <p className="text-lg md:text-xl font-bold leading-relaxed">
-              With 5+ years of experience building digital products, I bring a unique blend of technical skill and creative vision to every project.
+              I work across the full stack, from building responsive interfaces to shaping backend functionality, and I enjoy creating products that balance performance, clarity, and personality.
             </p>
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-6" data-cursor-trail="off">
             {skills.map(({ icon: Icon, label, description }) => (
               <div
                 key={label}

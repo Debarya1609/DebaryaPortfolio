@@ -122,8 +122,51 @@
   to { transform: rotate(360deg); }
 }
 
+@keyframes milestone-image-float {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(0deg);
+  }
+  50% {
+    transform: translate3d(0, -8px, 0) rotate(-0.7deg);
+  }
+}
+
+@keyframes milestone-image-sheen {
+  0% {
+    transform: translateX(-140%) skewX(-18deg);
+    opacity: 0;
+  }
+  22% {
+    opacity: 0.42;
+  }
+  52%, 100% {
+    transform: translateX(140%) skewX(-18deg);
+    opacity: 0;
+  }
+}
+
+.milestone-image-frame {
+  animation: milestone-image-float 4.8s ease-in-out infinite;
+  transform-origin: center;
+  will-change: transform;
+}
+
+.milestone-image-sheen {
+  background: linear-gradient(
+    90deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.2) 45%,
+    rgba(255, 255, 255, 0.65) 50%,
+    rgba(255, 255, 255, 0.18) 55%,
+    transparent 100%
+  );
+  mix-blend-mode: screen;
+  pointer-events: none;
+  animation: milestone-image-sheen 5.6s ease-in-out infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
-  .animate-spin-slow, .animate-bounce, .animate-pulse {
+  .animate-spin-slow, .animate-bounce, .animate-pulse, .milestone-image-frame, .milestone-image-sheen {
     animation: none;
   }
 }

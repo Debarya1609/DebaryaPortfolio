@@ -17,7 +17,11 @@ const isInteractiveElement = (target: Element | null) =>
   );
 
 const isTrailDisabledElement = (target: Element | null) =>
-  Boolean(target?.closest("nav, [data-cursor-trail='off']"));
+  Boolean(
+    target?.closest(
+      "nav, a, button, input, textarea, select, iframe, [role='button'], [data-cursor='interactive'], [data-cursor-trail='off']",
+    ),
+  );
 
 const lockPageScroll = (locked: boolean) => {
   document.documentElement.classList.toggle("site-scroll-locked", locked);

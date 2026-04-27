@@ -1,5 +1,6 @@
 import { ArrowRight, Star, FolderKanban } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { Link } from "react-router-dom";
 
 const projects = [
   {
@@ -11,6 +12,7 @@ const projects = [
     rotation: "rotate-1",
     label: "Live Build",
     tone: "Warm, inviting, clear",
+    href: "/case-studies/am-academy-music",
   },
   {
     title: "Esports Tournament Platform",
@@ -21,6 +23,7 @@ const projects = [
     rotation: "-rotate-1",
     label: "Competitive Flow",
     tone: "Fast, structured, energetic",
+    href: null,
   },
   {
     title: "Rook Lite Extension",
@@ -31,6 +34,7 @@ const projects = [
     rotation: "rotate-2",
     label: "Currently Building",
     tone: "Lean, useful, evolving",
+    href: null,
   },
 ];
 
@@ -109,12 +113,24 @@ const Projects = () => {
                 </div>
 
                 <div className="mt-auto pt-6">
-                  <Button
-                    variant="ghost"
-                    className="w-full group-hover:border-foreground group-hover:bg-primary group-hover:shadow-neo-sm"
-                  >
-                    Case Study Soon <ArrowRight className="h-4 w-4 stroke-[3px]" />
-                  </Button>
+                  {project.href ? (
+                    <Button
+                      asChild
+                      variant="ghost"
+                      className="w-full group-hover:border-foreground group-hover:bg-primary group-hover:shadow-neo-sm"
+                    >
+                      <Link to={project.href}>
+                        View Case Study <ArrowRight className="h-4 w-4 stroke-[3px]" />
+                      </Link>
+                    </Button>
+                  ) : (
+                    <Button
+                      variant="ghost"
+                      className="w-full group-hover:border-foreground group-hover:bg-primary group-hover:shadow-neo-sm"
+                    >
+                      Case Study Soon <ArrowRight className="h-4 w-4 stroke-[3px]" />
+                    </Button>
+                  )}
                 </div>
               </div>
             </article>

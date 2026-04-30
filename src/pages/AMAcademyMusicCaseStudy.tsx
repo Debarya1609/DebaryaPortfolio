@@ -2,18 +2,14 @@ import { useEffect, useRef } from "react";
 import {
   ArrowLeft,
   ArrowUpRight,
-  CalendarCheck,
   ExternalLink,
   Handshake,
   Lightbulb,
-  MapPin,
-  Megaphone,
   Music2,
   PenTool,
   Quote,
   Sparkles,
   Target,
-  X,
 } from "lucide-react";
 import { Link } from "react-router-dom";
 import Footer from "@/components/Footer";
@@ -86,15 +82,8 @@ const phaseSteps = [
   {
     phase: "Phase 3",
     icon: Handshake,
-    title: "Review, Development & Delivery",
-    body: "Move through client review rounds, confirm the timeline, build the full website, and keep the final scope aligned with the budget.",
-    status: "In progress",
-  },
-  {
-    phase: "Phase 4",
-    icon: CalendarCheck,
-    title: "Outcome & Learnings",
-    body: "The project is still in process, with the strongest results so far being better timeline management, accuracy, client satisfaction, and a clearer project overview.",
+    title: "Review, Delivery & Learnings",
+    body: "Move through client review rounds, confirm the timeline, build the full website, and keep scope, budget, and final delivery aligned.",
     status: "Next",
   },
 ];
@@ -219,6 +208,144 @@ const PhysicsOrbitStage = () => {
             className="h-full w-full object-contain"
           />
         </div>
+      </div>
+    </div>
+  );
+};
+
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+
+const ProgressMilestones = () => {
+  // Refs for GSAP animations
+  const mobileTimelineRef = useRef<HTMLDivElement>(null);
+  const lineRef = useRef<HTMLDivElement>(null);
+  const stepRefs = useRef<HTMLDivElement[]>([]);
+
+  // GSAP scroll-triggered animations
+  useGSAP(() => {
+    if (!mobileTimelineRef.current) return;
+    gsap.registerPlugin(ScrollTrigger);
+
+    // Animate vertical line draw
+    gsap.from(lineRef.current, {
+      height: 0,
+      duration: 1,
+      scrollTrigger: {
+        trigger: mobileTimelineRef.current,
+        start: "top 80%",
+        toggleActions: "play none none reverse",
+      },
+    });
+
+    // Animate each step
+    stepRefs.current.forEach((el, i) => {
+      gsap.from(el, {
+        opacity: 0,
+        y: 30,
+        delay: i * 0.2,
+        scrollTrigger: {
+          trigger: el,
+          start: "top 85%",
+          toggleActions: "play none none reverse",
+        },
+      });
+    });
+  }, { dependencies: [] });
+
+  return (
+    <div className="mt-12" data-cursor-trail="off">
+      <div className="mb-8 flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
+        <div>
+          <div className="mb-4 inline-flex rotate-[-2deg] border-4 border-foreground bg-secondary px-4 py-2 shadow-neo-sm">
+            <span className="text-xs font-black uppercase tracking-[0.24em]">Line of Progress</span>
+          </div>
+          <h3 className="text-4xl font-black uppercase leading-none sm:text-5xl">The line of work</h3>
+        </div>
+        <p className="max-w-md text-sm font-black uppercase leading-relaxed tracking-wide">
+          Three milestone checkpoints, with the pointer showing the current project position.
+        </p>
+      </div>
+
+      <div className="relative mb-10 hidden min-h-[170px] md:block">
+        <div className="relative mx-auto mt-10 h-24 max-w-5xl">
+          <div className="nb-progress large default absolute left-[7%] right-[7%] top-1/2 m-0 -translate-y-1/2">
+            <div className="nb-progress-bar bg-secondary" style={{ width: "50%" }} />
+          </div>
+        </div>
+        {phaseSteps.map((phase, index) => {
+          const Icon = phase.icon;
+          const isCurrent = index === 1;
+          const position = index === 0 ? "left-[8%]" : index === 1 ? "left-1/2" : "left-[92%]";
+          return (
+            <div key={phase.phase} className={`absolute top-1/2 flex -translate-x-1/2 -translate-y-1/2 flex-col items-center ${position}`}>
+              <div className={`relative flex h-16 w-16 items-center justify-center rounded-full border-4 border-foreground shadow-neo ${isCurrent ? "bg-secondary scale-125" : index === 0 ? "bg-primary" : "bg-muted"}`}>
+                {isCurrent ? (
+                  <img src="/Pointer.png" alt="Current progress pointer" className="progress-pointer-bounce h-12 w-12 object-contain" />
+                ) : (
+                  <Icon className="h-7 w-7 stroke-[3px]" />
+                )}
+              </div>
+              <div className={`mt-7 border-4 border-foreground bg-background px-4 py-2 shadow-neo-sm ${isCurrent ? "bg-secondary" : ""}`}>
+                <p className="whitespace-nowrap text-xs font-black uppercase tracking-[0.22em]">
+                  {isCurrent ? "Current phase" : phase.phase}
+                </p>
+              </div>
+            </div>
+          );
+        })}
+      </div>
+
+      {/* Mobile timeline with GSAP animations */}
+      <div ref={mobileTimelineRef} className="relative mb-10 py-6 md:hidden">
+        <div className="absolute left-[48px] top-12 bottom-12 w-4 -translate-x-1/2 border-4 border-foreground bg-muted shadow-neo-sm">
+          <div ref={lineRef} className="w-full bg-secondary border-b-4 border-foreground h-1/2" />
+        </div>
+
+        <div className="relative z-10 flex flex-col gap-12 px-4">
+          {phaseSteps.map((phase, index) => {
+            const Icon = phase.icon;
+            const isCurrent = index === 1;
+            return (
+              <div key={phase.phase} ref={el => (stepRefs.current[index] = el)} className="flex items-center gap-6">
+                <div className={`relative flex h-16 w-16 shrink-0 items-center justify-center rounded-full border-4 border-foreground shadow-neo z-10 ${isCurrent ? "bg-secondary scale-110" : index === 0 ? "bg-primary" : "bg-muted"}`}>
+                  {isCurrent ? (
+                    <img src="/Pointer.png" alt="Current progress pointer" className="progress-pointer-bounce h-10 w-10 object-contain" />
+                  ) : (
+                    <Icon className="h-6 w-6 stroke-[3px]" />
+                  )}
+                </div>
+                <div className={`nb-card default relative flex-1 px-4 py-3 after:absolute after:left-[-13px] after:top-5 after:h-0 after:w-0 after:border-y-[8px] after:border-y-transparent after:border-r-[12px] ${isCurrent ? "bg-secondary after:border-r-secondary" : "bg-background after:border-r-background"}`}>
+                  <p className="text-[10px] font-black uppercase tracking-[0.18em]">
+                    {isCurrent ? "Current phase" : phase.phase}
+                  </p>
+                  <p className="mt-1 text-sm font-black uppercase leading-tight">{phase.title}</p>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      <div className="grid gap-5 md:grid-cols-3">
+        {phaseSteps.map((phase, index) => {
+          const Icon = phase.icon;
+          const isCurrent = index === 1;
+          return (
+            <article key={phase.phase} className={`nb-card default !max-w-none p-5 ${isCurrent ? "bg-primary" : "bg-card"}`}>
+              <div className="mb-4 flex items-center justify-between gap-4">
+                <div className={`flex h-12 w-12 items-center justify-center border-4 border-foreground shadow-neo-sm ${isCurrent ? "bg-card" : "bg-secondary"}`}>
+                  <Icon className="h-6 w-6 stroke-[3px]" />
+                </div>
+                <span className="border-2 border-foreground bg-background px-3 py-1 text-xs font-black uppercase tracking-widest">{phase.status}</span>
+              </div>
+              <p className="mb-2 text-sm font-black uppercase tracking-[0.2em]">{phase.phase}</p>
+              <h4 className="mb-3 text-2xl font-black uppercase leading-none">{phase.title}</h4>
+              <p className="font-bold leading-relaxed">{phase.body}</p>
+            </article>
+          );
+        })}
       </div>
     </div>
   );
@@ -452,85 +579,7 @@ const AMAcademyMusicCaseStudy = () => {
                 </div>
 
                 <PhysicsOrbitStage />
-              </div>
-            </div>
-
-            <div
-              className="relative overflow-hidden border-4 border-foreground bg-background p-5 shadow-neo md:p-8"
-              data-cursor-trail="off"
-            >
-              <div className="mb-10 flex flex-col gap-6 md:flex-row md:items-start md:justify-between">
-                <div>
-                  <div className="mb-4 inline-flex border-4 border-foreground bg-secondary px-4 py-2 shadow-neo-sm">
-                    <span className="text-xs font-black uppercase tracking-[0.24em]">Timeline</span>
-                  </div>
-                  <h3 className="text-4xl font-black uppercase leading-none sm:text-6xl">
-                    The line of work
-                  </h3>
-                </div>
-
-                <div className="relative min-h-28 flex-1 md:max-w-lg">
-                  <div className="absolute left-0 right-0 top-10 h-2 border-2 border-foreground bg-card" />
-                  <div className="absolute left-2 top-4 h-14 w-14 rounded-full border-4 border-foreground bg-primary shadow-neo-sm" />
-                  <div className="absolute left-1/2 top-0 flex h-20 w-20 -translate-x-1/2 items-center justify-center rounded-full border-4 border-foreground bg-secondary shadow-neo">
-                    <MapPin className="h-9 w-9 stroke-[3px]" />
-                  </div>
-                  <div className="absolute right-2 top-4 h-14 w-14 rounded-full border-4 border-foreground bg-muted shadow-neo-sm" />
-                  <p className="absolute left-1/2 top-24 -translate-x-1/2 whitespace-nowrap text-xs font-black uppercase tracking-[0.24em]">
-                    Current phase
-                  </p>
-                </div>
-              </div>
-
-              <div className="relative space-y-8">
-                <div className="absolute bottom-10 left-8 top-8 hidden w-2 border-2 border-foreground bg-card md:block" />
-                {phaseSteps.map((phase, index) => {
-                  const Icon = phase.icon;
-                  const isCurrent = phase.status === "Current phase";
-
-                  return (
-                    <article
-                      key={phase.phase}
-                      className={`relative grid gap-5 border-4 border-foreground p-5 shadow-neo-sm md:grid-cols-[110px_1fr] md:p-6 ${
-                        isCurrent ? "bg-primary" : "bg-card"
-                      } ${index === 1 ? "md:ml-24" : index === 2 ? "md:mr-20" : ""}`}
-                    >
-                      <div className="flex items-center justify-between gap-4 md:block">
-                        <div
-                          className={`mb-3 flex h-14 w-14 items-center justify-center border-4 border-foreground shadow-neo-sm ${
-                            isCurrent ? "bg-card" : "bg-secondary"
-                          }`}
-                        >
-                          <Icon className="h-7 w-7 stroke-[3px]" />
-                        </div>
-                        <p className="text-2xl font-black uppercase leading-none">{phase.phase}</p>
-                      </div>
-
-                      <div>
-                        <div className="mb-3 flex flex-wrap items-center gap-3">
-                          <h4 className="text-2xl font-black uppercase leading-none md:text-3xl">
-                            {phase.title}
-                          </h4>
-                          <span className="border-2 border-foreground bg-background px-3 py-1 text-xs font-black uppercase tracking-widest">
-                            {phase.status}
-                          </span>
-                        </div>
-                        <p className="text-base font-bold leading-relaxed md:text-lg">{phase.body}</p>
-                      </div>
-
-                      {index === 2 && (
-                        <div className="absolute -right-5 -top-5 hidden h-12 w-12 items-center justify-center border-4 border-foreground bg-muted shadow-neo-sm md:flex">
-                          <X className="h-7 w-7 stroke-[3px]" />
-                        </div>
-                      )}
-                      {index === 3 && (
-                        <div className="absolute -left-5 -top-5 hidden h-12 w-12 items-center justify-center border-4 border-foreground bg-secondary shadow-neo-sm md:flex">
-                          <Megaphone className="h-7 w-7 stroke-[3px]" />
-                        </div>
-                      )}
-                    </article>
-                  );
-                })}
+                <ProgressMilestones />
               </div>
             </div>
           </div>

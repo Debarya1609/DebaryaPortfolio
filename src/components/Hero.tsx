@@ -79,51 +79,60 @@ const Hero = () => {
             </div>
           </div>
 
-          {/* Right — image placeholder, always visible */}
-          <div className="lg:col-span-2 relative flex items-center justify-center min-h-[280px] sm:min-h-[340px] md:min-h-[400px] lg:min-h-[480px]">
-            {/* Main image placeholder */}
+          {/* Right — profile image collage, always visible */}
+          <div className="lg:col-span-2 relative flex items-center justify-center min-h-[440px] sm:min-h-[520px] md:min-h-[580px] lg:min-h-[560px]">
+            {/* Main profile image */}
             <div
-              className="relative w-[220px] h-[220px] sm:w-[280px] sm:h-[280px] md:w-[320px] md:h-[320px] lg:w-[360px] lg:h-[360px] bg-primary border-4 border-foreground shadow-neo-lg z-10"
+              className="absolute left-[54%] top-[50%] z-20 h-[220px] w-[220px] -translate-x-1/2 -translate-y-1/2 overflow-hidden border-4 border-foreground bg-primary shadow-neo-lg sm:h-[290px] sm:w-[290px] md:h-[330px] md:w-[330px] lg:h-[350px] lg:w-[350px]"
               style={{
-                transform: `rotate(${6 + rotateScroll * 0.4}deg) translateY(${-parallax1}px)`,
+                transform: `translate(-50%, -50%) rotate(${4 + rotateScroll * 0.35}deg) translateY(${-parallax1}px)`,
               }}
             >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-black text-lg sm:text-xl md:text-2xl uppercase tracking-widest text-foreground/30 text-center px-4">
-                  Debarya
-                </span>
-              </div>
+              <img
+                src="/Debarya%202.jpg"
+                alt="Debarya Banerjee portrait 2"
+                className="h-full w-full object-cover object-[70%_24%]"
+                loading="eager"
+              />
             </div>
 
-            {/* Secondary placeholder */}
+            {/* Secondary profile image */}
             <div
-              className="absolute w-[180px] h-[180px] sm:w-[220px] sm:h-[220px] md:w-[260px] md:h-[260px] lg:w-[280px] lg:h-[280px] bg-secondary border-4 border-foreground shadow-neo z-20 top-[10%] right-[5%] sm:right-[10%]"
+              className="absolute left-[8%] top-[10%] z-10 h-[185px] w-[185px] overflow-hidden border-4 border-foreground bg-secondary shadow-neo sm:left-[7%] sm:h-[235px] sm:w-[235px] md:left-[4%] md:h-[270px] md:w-[270px] lg:left-[2%] lg:h-[285px] lg:w-[285px]"
               style={{
-                transform: `rotate(${-3 + rotateScroll * -0.3}deg) translateY(${-parallax2}px)`,
+                transform: `rotate(${-8 + rotateScroll * -0.28}deg) translateY(${-parallax2}px)`,
               }}
             >
-              <div className="absolute inset-0 flex items-center justify-center">
-                <span className="font-black text-sm sm:text-base md:text-lg uppercase tracking-widest text-foreground/20 text-center px-4">
-                  Full Stack
-                </span>
-              </div>
+              <img
+                src="/Debarya%201.jpg"
+                alt="Debarya Banerjee portrait 1"
+                className="h-full w-full object-cover object-[50%_35%]"
+                loading="eager"
+              />
             </div>
 
-            {/* Tertiary accent block */}
+            {/* Tertiary profile image */}
             <div
-              className="absolute w-[120px] h-[120px] sm:w-[150px] sm:h-[150px] md:w-[180px] md:h-[180px] lg:w-[200px] lg:h-[200px] bg-muted border-4 border-foreground shadow-neo-sm z-30 bottom-[5%] left-[5%] sm:left-[10%]"
+              className="absolute bottom-[8%] right-[4%] z-30 h-[165px] w-[165px] overflow-hidden border-4 border-foreground bg-muted shadow-neo sm:right-[6%] sm:h-[215px] sm:w-[215px] md:right-[3%] md:h-[245px] md:w-[245px] lg:right-[0%] lg:h-[255px] lg:w-[255px]"
               style={{
-                transform: `rotate(${12 + rotateScroll * 0.6}deg) translateY(${-parallax3}px)`,
+                transform: `rotate(${9 + rotateScroll * 0.42}deg) translateY(${-parallax3}px)`,
               }}
-            />
+            >
+              <img
+                src="/Debarya%203.jpg"
+                alt="Debarya Banerjee portrait 3"
+                className="h-full w-full object-cover object-[55%_32%]"
+                loading="eager"
+              />
+            </div>
 
             {/* Decorative elements */}
             <Star
-              className="absolute top-0 left-0 sm:left-[5%] h-10 w-10 sm:h-14 sm:w-14 stroke-[3px] animate-spin-slow fill-secondary z-40"
+              className="absolute left-0 top-0 z-40 h-10 w-10 fill-secondary stroke-[3px] sm:left-[5%] sm:h-14 sm:w-14"
               style={{ transform: `translateY(${-parallax2 * 0.8}px)` }}
             />
             <Zap
-              className="absolute bottom-[10%] right-0 h-8 w-8 sm:h-10 sm:w-10 stroke-[3px] fill-primary z-40"
+              className="absolute bottom-[10%] right-0 z-40 h-8 w-8 fill-primary stroke-[3px] sm:h-10 sm:w-10"
               style={{ transform: `translateY(${-parallax3 * 0.5}px) rotate(${rotateScroll}deg)` }}
             />
           </div>

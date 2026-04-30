@@ -1,4 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;700&display=swap');
+@import "neobrutalismcss";
 
 @tailwind base;
 @tailwind components;
@@ -165,12 +166,73 @@
   animation: milestone-image-sheen 5.6s ease-in-out infinite;
 }
 
+@keyframes progress-pointer-bounce {
+  0%, 100% {
+    transform: translate3d(0, 0, 0) rotate(-8deg);
+  }
+  45% {
+    transform: translate3d(0, -12px, 0) rotate(6deg);
+  }
+  65% {
+    transform: translate3d(0, 3px, 0) rotate(-4deg);
+  }
+}
+
+@keyframes progress-runner-desktop {
+  0%, 100% {
+    left: 7%;
+    transform: translate3d(-50%, -50%, 0) rotate(0deg);
+  }
+  48% {
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0) rotate(180deg);
+  }
+  62% {
+    left: 50%;
+    transform: translate3d(-50%, -50%, 0) rotate(180deg);
+  }
+}
+
+@keyframes progress-runner-mobile {
+  0%, 100% {
+    offset-distance: 0%;
+    transform: rotate(0deg);
+  }
+  48% {
+    offset-distance: 50%;
+    transform: rotate(180deg);
+  }
+  62% {
+    offset-distance: 50%;
+    transform: rotate(180deg);
+  }
+}
+
+.progress-pointer-bounce {
+  animation: progress-pointer-bounce 1.6s cubic-bezier(0.34, 1.56, 0.64, 1) infinite;
+  transform-origin: center bottom;
+  will-change: transform;
+}
+
+.progress-runner-desktop {
+  animation: progress-runner-desktop 4.2s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
+.progress-runner-mobile {
+  offset-path: path("M72 20 C18 88 134 147 72 216 C20 279 132 339 72 410");
+  offset-distance: 0%;
+  animation: progress-runner-mobile 4.2s cubic-bezier(0.45, 0, 0.2, 1) infinite;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .animate-spin-slow,
   .animate-bounce,
   .animate-pulse,
   .milestone-image-frame,
-  .milestone-image-sheen {
+  .milestone-image-sheen,
+  .progress-pointer-bounce,
+  .progress-runner-desktop,
+  .progress-runner-mobile {
     animation: none;
   }
 }

@@ -1,6 +1,4 @@
-import { useState, useEffect, useRef } from "react";
-import gsap from "gsap";
-import { useGSAP } from "@gsap/react";
+import { useEffect, useRef } from "react";
 import {
   ArrowLeft,
   ArrowUpRight,
@@ -102,89 +100,131 @@ const phaseSteps = [
 ];
 
 const approachCards = [
-  { name: "Built for students", bg: "bg-primary" },
-  { name: "Clear info flow", bg: "bg-secondary" },
-  { name: "Warm & professional", bg: "bg-muted" },
-  { name: "Guided practice", bg: "bg-card" },
-  { name: "Trust & discovery", bg: "bg-primary" },
-  { name: "Approachable learning", bg: "bg-secondary" },
+  {
+    name: "Figma",
+    bg: "bg-primary",
+  },
+  {
+    name: "React",
+    bg: "bg-secondary",
+  },
+  {
+    name: "Guided practice",
+    bg: "bg-card",
+  },
+  {
+    name: "Trust & discovery",
+    bg: "bg-primary",
+  },
+  {
+    name: "Tailwind",
+    bg: "bg-muted",
+  },
+  {
+    name: "Vercel",
+    bg: "bg-card",
+  },
 ];
 
-const techCards = [
-  { name: "Figma", bg: "bg-primary", x: -280, y: -220, originY: -200, rot: -8 },
-  { name: "React", bg: "bg-secondary", x: 280, y: -220, originY: -200, rot: 12 },
-  { name: "Tailwind", bg: "bg-muted", x: -280, y: 220, originY: 200, rot: -10 },
-  { name: "Vercel", bg: "bg-card", x: 280, y: 220, originY: 200, rot: 8 },
-];
+const easeOutBack = (value: number) => {
+  const c1 = 1.70158;
+  const c3 = c1 + 1;
+  return 1 + c3 * Math.pow(value - 1, 3) + c1 * Math.pow(value - 1, 2);
+};
+
+const PhysicsOrbitStage = () => {
+  const cardRefs = useRef<Array<HTMLDivElement | null>>([]);
+  const hourglassRef = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+    let animationFrame = 0;
+    const start = performance.now();
+
+    const placeCards = (timestamp: number) => {
+      const elapsed = (timestamp - start) / 1000;
+      const mobile = window.innerWidth < 768;
+      const radiusX = mobile ? 145 : 370;
+      const radiusY = mobile ? 42 : 76;
+      const depthRange = mobile ? 165 : 360;
+      const spinSpeed = 0.5;
+
+      approachCards.forEach((_, index) => {
+        const element = cardRefs.current[index];
+        if (!element) {
+          return;
+        }
+
+        const entryDelay = index * 0.14;
+        const rawEntry = reducedMotion ? 1 : Math.min(Math.max((elapsed - entryDelay) / 1.15, 0), 1);
+        const entry = easeOutBack(rawEntry);
+        const angle = (reducedMotion ? 0.9 : elapsed * spinSpeed) + index * ((Math.PI * 2) / approachCards.length);
+        const orbitX = Math.sin(angle);
+        const orbitZ = Math.cos(angle);
+        const x = orbitX * radiusX * entry;
+        const y = Math.sin(angle * 2) * radiusY * entry;
+        const depth = (orbitZ + 1) / 2;
+        const scale = (0.68 + depth * 0.36) * (0.86 + rawEntry * 0.14);
+        const tilt = orbitX * 7;
+        const cardTurn = orbitX * -14;
+        const shadow = Math.round(4 + depth * 12);
+        const blur = (1 - depth) * 0.8;
+
+        element.style.opacity = `${rawEntry}`;
+        element.style.zIndex = orbitZ > -0.15 ? `${35 + Math.round(depth * 20)}` : `${8 + Math.round(depth * 8)}`;
+        element.style.filter = `brightness(${0.88 + depth * 0.14}) blur(${blur}px)`;
+        element.style.transform = `translate(-50%, -50%) translate3d(${x}px, ${y}px, 0) scale(${scale}) rotate(${tilt}deg) rotateY(${cardTurn}deg)`;
+        element.style.boxShadow = `${shadow}px ${shadow}px 0 #000`;
+      });
+
+      if (hourglassRef.current) {
+        const lift = reducedMotion ? 0 : Math.sin(elapsed * 1.35) * 8;
+        const rotate = reducedMotion ? 0 : Math.sin(elapsed * 0.9) * 0.8;
+        hourglassRef.current.style.transform = `translate3d(0, ${lift}px, 0) rotate(${rotate}deg)`;
+      }
+
+      if (!reducedMotion) {
+        animationFrame = window.requestAnimationFrame(placeCards);
+      }
+    };
+
+    animationFrame = window.requestAnimationFrame(placeCards);
+
+    return () => {
+      window.cancelAnimationFrame(animationFrame);
+    };
+  }, []);
+
+  return (
+    <div className="relative mx-auto min-h-[620px] max-w-6xl overflow-hidden [perspective:1200px] md:min-h-[720px]">
+      <div className="pointer-events-none absolute left-1/2 top-1/2 h-[180px] w-[180px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-secondary/25 blur-3xl" />
+
+      {approachCards.map((card, index) => (
+        <div
+          key={card.name}
+          ref={(element) => {
+            cardRefs.current[index] = element;
+          }}
+          className={`absolute left-1/2 top-1/2 flex h-[64px] w-[160px] items-center justify-center border-4 border-foreground ${card.bg} px-3 text-center opacity-0 [backface-visibility:hidden] [transform-style:preserve-3d] will-change-transform md:h-[74px] md:w-[190px]`}
+        >
+          <p className="text-xs font-black uppercase leading-tight md:text-sm">{card.name}</p>
+        </div>
+      ))}
+
+      <div className="absolute left-1/2 top-1/2 z-30 flex h-[430px] w-[520px] -translate-x-1/2 -translate-y-1/2 items-center justify-center md:h-[620px] md:w-[760px]">
+        <div ref={hourglassRef} className="h-full w-full will-change-transform">
+          <img
+            src="/hourglass_idea.png"
+            alt="Hourglass idea centerpiece"
+            className="h-full w-full object-contain"
+          />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 const AMAcademyMusicCaseStudy = () => {
-  const containerRef = useRef<HTMLDivElement>(null);
-
-  useGSAP(() => {
-    const tl = gsap.timeline({ repeat: -1 });
-    const cards = gsap.utils.toArray(".approach-card") as HTMLElement[];
-    const hourglass = ".hourglass-image";
-
-    // Initial State Setup
-    gsap.set(cards, {
-      scale: 0,
-      opacity: 0,
-      rotateY: 90,
-      rotateX: 45,
-      z: -50,
-      x: 0,
-      y: (i, el) => parseFloat(el.dataset.originy || "0")
-    });
-
-    // 1. Initial Pause
-    tl.to({}, { duration: 1 });
-
-    // 2. Hourglass Shake
-    tl.to(hourglass, {
-      rotate: 8,
-      yoyo: true,
-      repeat: 5,
-      duration: 0.08,
-      ease: "power1.inOut"
-    });
-    tl.to(hourglass, { rotate: 0, duration: 0.08 });
-
-    // 3. Cards Pop Out
-    tl.to(cards, {
-      scale: 1,
-      opacity: 1,
-      rotateY: 0,
-      rotateX: 0,
-      x: (i, el) => parseFloat(el.dataset.x || "0"),
-      y: (i, el) => parseFloat(el.dataset.y || "0"),
-      rotationZ: (i, el) => parseFloat(el.dataset.rot || "0"),
-      duration: 1.2,
-      ease: "elastic.out(1, 0.6)",
-      stagger: 0.05
-    });
-
-    // 4. Read Hold
-    tl.to({}, { duration: 4 });
-
-    // 5. Retract
-    tl.to(cards, {
-      scale: 0,
-      opacity: 0,
-      rotateY: 90,
-      rotateX: 45,
-      x: 0,
-      y: (i, el) => parseFloat(el.dataset.originy || "0"),
-      rotationZ: 0,
-      duration: 0.8,
-      ease: "back.in(1.2)",
-      stagger: 0.05
-    });
-
-    // 6. Final Pause
-    tl.to({}, { duration: 1.5 });
-
-  }, { scope: containerRef });
-
   return (
     <div className="min-h-screen bg-background">
       <Navbar />
@@ -402,25 +442,7 @@ const AMAcademyMusicCaseStudy = () => {
               </div>
 
               <div className="relative z-10 mt-16 py-10" data-cursor-trail="off">
-                <style>
-                  {`
-                    @keyframes spin-carousel {
-                      0% { transform: rotateX(-8deg) rotateZ(-4deg) rotateY(0deg); }
-                      100% { transform: rotateX(-8deg) rotateZ(-4deg) rotateY(-360deg); }
-                    }
-                    .preserve-3d {
-                      transform-style: preserve-3d;
-                    }
-                    .carousel-spin {
-                      animation: spin-carousel 24s linear infinite;
-                    }
-                    .carousel-container:hover .carousel-spin {
-                      animation-play-state: paused;
-                    }
-                  `}
-                </style>
-
-                <div className="mb-24 text-center">
+                <div className="mb-10 text-center">
                   <div className="inline-flex rotate-[-2deg] items-center gap-3 border-4 border-foreground bg-primary px-4 py-2 shadow-neo-sm">
                     <Sparkles className="h-5 w-5 stroke-[3px]" />
                     <span className="text-xs font-black uppercase tracking-[0.24em] sm:text-sm">
@@ -429,60 +451,7 @@ const AMAcademyMusicCaseStudy = () => {
                   </div>
                 </div>
 
-                <div className="carousel-container relative mx-auto flex h-[600px] w-full items-center justify-center scale-[0.6] sm:scale-100 [perspective:1200px]">
-                  <div ref={containerRef} className="relative h-full w-full preserve-3d flex items-center justify-center">
-                    
-                    {/* Rotating 3D Path (CSS Carousel) */}
-                    <div className="absolute left-1/2 top-1/2 h-0 w-0 preserve-3d carousel-spin">
-                      {approachCards.map((card, i) => {
-                        const rot = i * 60;
-                        return (
-                          <div
-                            key={card.name}
-                            className={`absolute left-0 top-0 flex h-[50px] w-[180px] items-center justify-center border-2 border-foreground ${card.bg} shadow-neo`}
-                            style={{
-                              transform: `translate(-50%, -50%) rotateY(${rot}deg) translateZ(360px)`,
-                            }}
-                          >
-                             <p className="text-sm font-black uppercase leading-none">{card.name}</p>
-                          </div>
-                        );
-                      })}
-                    </div>
-
-                    {/* GSAP Popping Cards (Behind Hourglass due to GSAP z: -50) */}
-                    <div className="absolute left-1/2 top-1/2 h-0 w-0 preserve-3d">
-                      {techCards.map((card) => (
-                        <div
-                          key={card.name}
-                          className={`approach-card absolute left-0 top-0 flex h-[80px] w-[180px] items-center justify-center border-2 border-foreground ${card.bg} p-2 text-center shadow-neo`}
-                          data-x={card.x}
-                          data-y={card.y}
-                          data-rot={card.rot}
-                          data-originy={card.originY}
-                          style={{ marginLeft: "-90px", marginTop: "-40px" }}
-                        >
-                          <p className="text-sm font-black uppercase leading-tight">{card.name}</p>
-                        </div>
-                      ))}
-                    </div>
-
-                    {/* Hourglass Image Wrapper (Middle of 3D space) */}
-                    <div 
-                      className="absolute left-1/2 top-1/2 h-[600px] w-[800px]"
-                      style={{ transform: "translate(-50%, -50%) translateZ(0px)" }}
-                    >
-                      <div className="hourglass-image h-full w-full">
-                        <img 
-                          src="/hourglass_idea.png" 
-                          alt="Hourglass Centerpiece" 
-                          className="h-full w-full object-contain"
-                        />
-                      </div>
-                    </div>
-
-                  </div>
-                </div>
+                <PhysicsOrbitStage />
               </div>
             </div>
 

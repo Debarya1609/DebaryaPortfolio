@@ -166,7 +166,11 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .animate-spin-slow, .animate-bounce, .animate-pulse, .milestone-image-frame, .milestone-image-sheen {
+  .animate-spin-slow,
+  .animate-bounce,
+  .animate-pulse,
+  .milestone-image-frame,
+  .milestone-image-sheen {
     animation: none;
   }
 }
